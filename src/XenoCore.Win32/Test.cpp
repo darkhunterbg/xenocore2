@@ -10,3 +10,7 @@ Test::Test()
 Test::~Test()
 {
 }
+
+void Test::Modified()
+{
+}

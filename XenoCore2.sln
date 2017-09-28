@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.Editor", "src\Xeno
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingsGenerator", "src\BindingsGenerator\BindingsGenerator.csproj", "{DE056C05-0278-42FD-92E5-3AD1B2705A34}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XenoCore.Win32.NET", "src\XenoCore.Win32.NET\XenoCore.Win32.NET.vcxproj", "{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,12 +33,17 @@ Global
 		{DE056C05-0278-42FD-92E5-3AD1B2705A34}.Debug|x64.Build.0 = Debug|x64
 		{DE056C05-0278-42FD-92E5-3AD1B2705A34}.Release|x64.ActiveCfg = Release|x64
 		{DE056C05-0278-42FD-92E5-3AD1B2705A34}.Release|x64.Build.0 = Release|x64
+		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Debug|x64.ActiveCfg = Debug|x64
+		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Debug|x64.Build.0 = Debug|x64
+		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Release|x64.ActiveCfg = Release|x64
+		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9D2C9E26-A13C-42B0-A49D-5E546115E86F} = {8D158DA6-2435-46D1-BDC1-C210995B8BA0}
+		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133} = {8D158DA6-2435-46D1-BDC1-C210995B8BA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3594A28E-BA59-49B3-B1E2-721A24913A17}

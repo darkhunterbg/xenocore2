@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XenoCore.Win32.NET\XenoCore.Win32.NET.vcxproj">
+      <Project>{2efca3bd-d2e8-48ce-927b-9339bced1133}</Project>
+      <Name>XenoCore.Win32.NET</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
