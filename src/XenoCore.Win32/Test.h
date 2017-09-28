@@ -7,12 +7,16 @@
 #endif
 
 
+
  class Test
 {
 public:
 	EXPORT Test();
 	EXPORT ~Test();
 
-	EXPORT void Modified();
+	void Modified();
+
+	///Returns id
+	EXPORT int GetID() { return 0; };
 };
 

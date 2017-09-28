@@ -23,6 +23,8 @@ namespace XenoCore.Editor
         public MainWindow()
         {
             InitializeComponent();
+
+            Test test = new Test();
         }
     }
 }

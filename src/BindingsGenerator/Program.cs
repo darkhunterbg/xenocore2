@@ -1,14 +1,10 @@
 ﻿using CppSharp;
-using Microsoft.Build.Execution;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Xml;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Build.Evaluation;
-using Microsoft.Build.Logging;
-using System.Diagnostics;
 
 namespace BindingsGenerator
 {
@@ -24,30 +20,36 @@ namespace BindingsGenerator
         static void Main(string[] args)
         {
             var currentDir = Directory.GetCurrentDirectory();
-            var outputDir = Path.Combine(currentDir, "bindings");
 
             XenoCoreLibrary library = CreateLibrary(currentDir);
+
+            var outputDir = Path.Combine(currentDir, "bindings", library.LibraryName);
+
             String genFile = Path.Combine(outputDir, GenFileName);
             var genModified = File.GetLastWriteTime(genFile);
             var toolModified = File.GetLastWriteTime(Path.Combine(currentDir, "BindingsGenerator.exe"));
 
-            bool forceRebuild = true;// toolModified > genModified;
+            bool forceRebuild = toolModified > genModified;
 
-            if (!forceRebuild)
-            {
-                if (File.Exists(genFile))
-                {
-                    var libModified = File.GetLastWriteTime(Path.Combine(currentDir, library.LibraryFileName));
+            if (args.Contains("--rebuild"))
+                forceRebuild = true;
 
-                    if (libModified < genModified)
-                    {
-                        Console.WriteLine("Library was not modified. Skipping binding generation...");
-                        return;
-                    }
-                }
-            }
+            //if (!forceRebuild)
+            //{
+            //    if (File.Exists(genFile))
+            //    {
+            //        var libModified = File.GetLastWriteTime(Path.Combine(currentDir, library.LibraryFileName));
+
+            //        if (libModified < genModified)
+            //        {
+            //            Console.WriteLine("Library was not modified. Skipping binding generation...");
+            //            return;
+            //        }
+            //    }
+            //}
 
             int modifiedFiles = 0;
+
             foreach (var source in library.Sources)
             {
                 var dir = new DirectoryInfo(source.IncludeDir);
@@ -58,8 +60,32 @@ namespace BindingsGenerator
 
                     if (forceRebuild || file.LastWriteTime > bindingModified)
                     {
-                        ++modifiedFiles;
-                        source.Headers.Add(file.Name);
+                  
+                        using (StreamReader reader = new StreamReader(file.FullName))
+                        {
+                          //  while (!reader.EndOfStream)
+                            {
+                              //  String text = reader.ReadLine();
+                                //if (text.Contains("EXPORT"))
+                                {
+                                    ++modifiedFiles;
+                                    source.Headers.Add(file.Name);
+                                }
+                                //else
+                                //{
+                                //    String outHeader = Path.Combine(outputDir, file.Name);
+                                //    if (File.Exists(outHeader))
+                                //        File.Delete(outHeader);
+
+                                //    String outSource = Path.Combine(outputDir, file.Name.Substring(0, file.Name.Length - 1) + "cpp");
+                                //    if (File.Exists(outSource))
+                                //        File.Delete(outSource);
+                                //}
+                            }
+
+                        }
+
+
                     }
                 }
             }
@@ -70,8 +96,11 @@ namespace BindingsGenerator
             if (modifiedFiles > 0)
             {
                 GenerateBindings(currentDir, outputDir, library);
-                BuildProjectFile(outputDir);
+                BuildProjectFile(outputDir, library);
             }
+
+       
+
             File.WriteAllText(genFile, DateTime.Now.ToString());
         }
 
@@ -113,29 +142,85 @@ namespace BindingsGenerator
             Directory.SetCurrentDirectory(currentDir);
         }
 
-        static void BuildProjectFile(String outputDir)
+        static void BuildProjectFile(String outputDir, XenoCoreLibrary lib)
         {
-            String projectFile = Path.GetFullPath(Path.Combine(@"..\..\..\src\XenoCore.Win32.NET\XenoCore.Win32.NET.vcxproj"));
+            String projectName = $"{lib.LibraryName}.NET";
+
+            String projectFile = Path.GetFullPath(Path.Combine($@"..\..\..\src\{projectName}\{projectName}.vcxproj"));
+
+            XNamespace msbuild = "http://schemas.microsoft.com/developer/msbuild/2003";
+            XName ClCompile = msbuild + "ClCompile";
+            XName ClInclude = msbuild + "ClInclude";
+            XName ItemGroup = msbuild + "ItemGroup";
+
+            XDocument xml = XDocument.Load(projectFile);
+
+            var rootSource = (xml.FirstNode as XElement).Elements(ItemGroup).FirstOrDefault(p => p.Element(ClCompile) != null);
+            var rootHeader = (xml.FirstNode as XElement).Elements(ItemGroup).FirstOrDefault(p => p.Element(ClInclude) != null);
+
+            if (rootHeader == null)
+            {
+                rootHeader = new XElement(ItemGroup);
+                (xml.FirstNode as XElement).Add(rootHeader);
+            }
+            if (rootSource == null)
+            {
+                rootSource = new XElement(ItemGroup);
+                (xml.FirstNode as XElement).Add(rootSource);
+            }
+
+            var sourceFiles = rootSource.Elements()
+                .Select(p => p.FirstAttribute.Value)
+                .ToList();
+            var headerFiles = rootHeader.Elements()
+                .Select(p => p.FirstAttribute.Value)
+                .ToList();
+
+            var root = xml.FirstNode as XElement;
+
+            int modifications = 0;
 
 
-            Project project = new Project(projectFile);
-            foreach (var file in Directory.GetFiles(outputDir))
+            var generatedFiles = Directory.GetFiles(outputDir).Where(p => p.EndsWith(".cpp") || p.EndsWith(".h"));
+
+            foreach (var file in generatedFiles)
             {
                 if (file.EndsWith(".cpp"))
                 {
-                    project.AddItem("ClCompile", file);
+                    if (!sourceFiles.Contains(file))
+                    {
+                        var e = new XElement(ClCompile);
+                        e.SetAttributeValue("Include", file);
+                        rootSource.Add(e);
+                        ++modifications;
+                    }
                 }
                 if (file.EndsWith(".h"))
                 {
-                    project.AddItem("ClInclude", file);
+                    if (!headerFiles.Contains(file))
+                    {
+                        var e = new XElement(ClInclude);
+                        e.SetAttributeValue("Include", file);
+                        rootHeader.Add(e);
+                        ++modifications;
+                    }
                 }
             }
 
-            //Will reuse existing project
-            project.Save(Path.GetFullPath(Path.Combine(@"..\..\..\src\XenoCore.Win32.NET\tmp.XenoCore.Win32.NET.vcxproj")));
-            // project.Build(new String[] { "Build" }, new Microsoft.Build.Framework.ILogger[] { new ConsoleLogger() });
+            var usedFiles = rootHeader.Elements().ToList();
+            usedFiles.AddRange(rootSource.Elements());
 
-        
+            foreach (var file in usedFiles)
+            {
+                if (!generatedFiles.Contains(file.FirstAttribute.Value))
+                {
+                    ++modifications;
+                    file.Remove();
+                }
+            }
+
+            if (modifications > 0)
+                xml.Save(projectFile);
         }
     }
 }
