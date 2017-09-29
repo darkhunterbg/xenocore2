@@ -43,7 +43,9 @@ namespace BindingsGenerator
 
         public void Setup(Driver driver)
         {
+
             var options = driver.Options;
+            options.GenerateClassTemplates = true;
             options.GeneratorKind = GeneratorKind.CLI;
             var module = options.AddModule(LibraryName);
 
@@ -64,11 +66,11 @@ namespace BindingsGenerator
 
         public void Preprocess(Driver driver, ASTContext ctx)
         {
+            ctx.SetClassBindName("XenoCoreEngineWin32", "XenoCoreEngine");
         }
 
         public void Postprocess(Driver driver, ASTContext ctx)
         {
-
         }
     }
 }

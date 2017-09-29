@@ -32,6 +32,13 @@ namespace BindingsGenerator
 
             var outputDir = Path.Combine(currentDir, "bindings", library.LibraryName);
 
+            if (!File.Exists(Path.Combine(currentDir, library.LibraryFileName)))
+            {
+                Console.WriteLine($"{library.LibraryFileName} is missing. Skipping bindings generation...");
+                BuildProjectFile(outputDir, library);
+                return;
+            }
+
             String genFile = Path.Combine(outputDir, GenFileName);
             var genModified = File.GetLastWriteTime(genFile);
             var toolModified = File.GetLastWriteTime(Path.Combine(currentDir, "BindingsGenerator.exe"));
@@ -40,6 +47,8 @@ namespace BindingsGenerator
 
             if (args.Contains("--rebuild"))
                 forceRebuild = true;
+
+
 
             //if (!forceRebuild)
             //{
@@ -67,31 +76,8 @@ namespace BindingsGenerator
 
                     if (forceRebuild || file.LastWriteTime > bindingModified)
                     {
-                  
-                        using (StreamReader reader = new StreamReader(file.FullName))
-                        {
-                          //  while (!reader.EndOfStream)
-                            {
-                              //  String text = reader.ReadLine();
-                                //if (text.Contains("EXPORT"))
-                                {
-                                    ++modifiedFiles;
-                                    source.Headers.Add(file.Name);
-                                }
-                                //else
-                                //{
-                                //    String outHeader = Path.Combine(outputDir, file.Name);
-                                //    if (File.Exists(outHeader))
-                                //        File.Delete(outHeader);
-
-                                //    String outSource = Path.Combine(outputDir, file.Name.Substring(0, file.Name.Length - 1) + "cpp");
-                                //    if (File.Exists(outSource))
-                                //        File.Delete(outSource);
-                                //}
-                            }
-
-                        }
-
+                        ++modifiedFiles;
+                        source.Headers.Add(file.Name);
 
                     }
                 }
@@ -103,10 +89,10 @@ namespace BindingsGenerator
             if (modifiedFiles > 0)
             {
                 GenerateBindings(currentDir, outputDir, library);
-                BuildProjectFile(outputDir, library);
+                PostBuildCleanup(outputDir);
             }
 
-       
+            BuildProjectFile(outputDir, library);
 
             File.WriteAllText(genFile, DateTime.Now.ToString());
         }
@@ -228,6 +214,40 @@ namespace BindingsGenerator
 
             if (modifications > 0)
                 xml.Save(projectFile);
+        }
+
+        static void PostBuildCleanup(String outputDir)
+        {
+            var generatedFiles = Directory.GetFiles(outputDir).Where(p => p.EndsWith(".h"));
+
+            foreach (var file in generatedFiles)
+            {
+                bool del = true;
+
+                using (StreamReader reader = new StreamReader(file))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        String text = reader.ReadLine();
+                        if (text.Contains("class") || text.Contains("enum"))
+                        {
+                            del = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (del)
+                {
+                    String outHeader = file;
+                    if (File.Exists(outHeader))
+                        File.Delete(outHeader);
+
+                    String outSource = file.Substring(0, file.Length - 1) + "cpp";
+                    if (File.Exists(outSource))
+                        File.Delete(outSource);
+                }
+            }
         }
     }
 }

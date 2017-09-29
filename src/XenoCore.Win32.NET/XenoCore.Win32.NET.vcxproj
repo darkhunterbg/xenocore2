@@ -39,10 +39,8 @@
     <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings"></ImportGroup>
+  <ImportGroup Label="Shared"></ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -53,17 +51,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)bin\$(Platform)\$(Configuration)\bindings;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\XenoCore;$(SolutionDir)bin\$(Platform)\$(Configuration)\bindings;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)bin\$(Platform)\$(Configuration)\bindings;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)bin\$(Platform)\$(Configuration)\bindings;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\XenoCore;$(SolutionDir)bin\$(Platform)\$(Configuration)\bindings;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)bin\$(Platform)\$(Configuration)\bindings;$(SourcePath)</SourcePath>
-    <TargetName>XenoCore.Win32.NET</TargetName>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -104,16 +102,15 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
-  <ItemGroup>
-    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\CppSharp.h" />
-    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\Test.h" />
-    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\TestShare.h" />
-  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets"></ImportGroup>
+  <ItemGroup />
+  <ItemGroup />
   <ItemGroup />
   <ItemGroup>
-    <ClCompile Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\Test.cpp" />
-    <ClCompile Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\TestShare.cpp" />
+    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\CppSharp.h" />
+    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\XenoCoreEngineWin32.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\XenoCoreEngineWin32.cpp" />
   </ItemGroup>
 </Project>

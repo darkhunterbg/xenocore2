@@ -24,10 +24,8 @@ namespace XenoCore.Editor
         {
             InitializeComponent();
 
-            Test test = new Test();
+            XenoCoreEngine.Initialize();
 
-            int c = 3;
-            c = Test.TestFunction;
         }
     }
 }

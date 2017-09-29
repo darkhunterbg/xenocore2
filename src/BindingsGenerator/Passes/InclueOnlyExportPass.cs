@@ -17,8 +17,6 @@ namespace BindingsGenerator.Passes
             ExportMacroName = macroName;
         }
 
-
-
         public override bool VisitClassDecl(Class @class)
         {
             if (@class.GenerationKind == GenerationKind.None)
