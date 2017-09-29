@@ -57,6 +57,7 @@ namespace BindingsGenerator
             module.LibraryDirs.Add(LibDir);
             module.Libraries.Add($"{module.LibraryName}.lib");
 
+            //  module.OutputNamespace = "";
         }
 
         public void SetupPasses(Driver driver)
@@ -66,11 +67,20 @@ namespace BindingsGenerator
 
         public void Preprocess(Driver driver, ASTContext ctx)
         {
-            ctx.SetClassBindName("XenoCoreEngineWin32", "XenoCoreEngine");
+            //ctx.IgnoreClassWithName("MemoryFreeResult");
+            //ctx.IgnoreClassWithName("MemoryAllocResult");
+            //ctx.IgnoreClassWithName("MemoryBlock");
         }
+
 
         public void Postprocess(Driver driver, ASTContext ctx)
         {
+
+            //TODO: Replace with ignore list
+            ctx.FindClass("MemoryAllocResult").FirstOrDefault().GenerationKind = GenerationKind.None;
+            ctx.FindClass("MemoryFreeResult").FirstOrDefault().GenerationKind = GenerationKind.None;
+            ctx.FindClass("MemoryBlock").FirstOrDefault().GenerationKind = GenerationKind.None;
+
         }
     }
 }

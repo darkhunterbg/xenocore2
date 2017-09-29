@@ -1,24 +1,36 @@
 #pragma once
 
-#include "Platform.h"
+
+#include "MemoryManager.h"
+
+struct XenoCoreEngineConfig
+{
+	void* FixedMemoryAddress;
+};
 
 /// <summary>
 /// Manages the game engine and it's systems
 /// </summary>
-template <class TPlatform>
 class XenoCoreEngine
 {
 public:
 	/// <summary>
 	/// Initialize the game engine
 	/// </summary>
-	EXPORT static inline void Initialize()
-	{
-		TPlatform::MemoryAlloc(4 * 1024);
-	}
+	EXPORT static inline void Initialize(XenoCoreEngineConfig config);
+
+	/// <summary>
+	/// Get the engine's memory manager
+	/// </summary>
+	/// <returns>The engine's memory</returns>
+	EXPORT static inline MemoryManager& GetMemoryManager()  { return *mm; }
+
 private:
+	static MemoryManager* mm;
+
 	XenoCoreEngine() = delete;
-	~XenoCoreEngine() = delete;
+	~XenoCoreEngine() = delete;	
 
 
 };
+

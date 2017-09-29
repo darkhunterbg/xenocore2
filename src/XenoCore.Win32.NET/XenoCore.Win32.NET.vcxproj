@@ -108,9 +108,11 @@
   <ItemGroup />
   <ItemGroup>
     <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\CppSharp.h" />
-    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\XenoCoreEngineWin32.h" />
+    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\MemoryManager.h" />
+    <ClInclude Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\XenoCoreEngine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\XenoCoreEngineWin32.cpp" />
+    <ClCompile Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\MemoryManager.cpp" />
+    <ClCompile Include="D:\Other\xenocore2\bin\x64\Debug\bindings\XenoCore.Win32\XenoCoreEngine.cpp" />
   </ItemGroup>
 </Project>

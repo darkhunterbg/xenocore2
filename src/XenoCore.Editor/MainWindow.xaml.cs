@@ -23,9 +23,7 @@ namespace XenoCore.Editor
         public MainWindow()
         {
             InitializeComponent();
-
-            XenoCoreEngine.Initialize();
-
+            
         }
     }
 }

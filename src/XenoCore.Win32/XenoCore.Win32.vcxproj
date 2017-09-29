@@ -12,11 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32Platform.h" />
-    <ClInclude Include="XenoCoreEngineWin32.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32Platform.cpp" />
-    <ClCompile Include="XenoCoreEngineWin32.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

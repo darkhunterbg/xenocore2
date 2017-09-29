@@ -4,12 +4,17 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{0274dfbe-a1c2-42fa-9517-2b95d5f32c54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{6b403df0-bd51-4bf0-8201-494e8be7a35b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)XenoCoreEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Platform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)XenoCoreEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MemoryManager.cpp" />
   </ItemGroup>
 </Project>

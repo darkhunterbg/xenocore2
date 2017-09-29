@@ -19,9 +19,13 @@ namespace BindingsGenerator.Passes
 
         public override bool VisitClassDecl(Class @class)
         {
-            if (@class.GenerationKind == GenerationKind.None)
+            if (@class.GenerationKind == GenerationKind.None || @class.GenerationKind == GenerationKind.Internal)
                 return false;
 
+            if (@class.IsPOD)
+            {
+                return false;
+            }
 
             if (!@class.Methods.Any(p => p.GenerationKind == GenerationKind.Generate))
             {
@@ -34,6 +38,7 @@ namespace BindingsGenerator.Passes
 
         public override bool VisitMethodDecl(Method method)
         {
+
             if (method.DebugText.StartsWith(ExportMacroName))
                 return base.VisitMethodDecl(method);
 

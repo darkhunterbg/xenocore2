@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingsGenerator", "src\Bi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XenoCore.Win32.NET", "src\XenoCore.Win32.NET\XenoCore.Win32.NET.vcxproj", "{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{E7A50CAF-08EF-4B76-90EB-132DEFCC1928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Win32.Managed", "src\Demo.Win32.Managed\Demo.Win32.Managed.csproj", "{378C87F4-5726-4A48-8AED-6226E6F0F85B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\XenoCore\XenoCore.vcxitems*{6bb4a676-0392-435b-a94f-293e5eb68ba8}*SharedItemsImports = 9
@@ -41,6 +45,10 @@ Global
 		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Debug|x64.Build.0 = Debug|x64
 		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Release|x64.ActiveCfg = Release|x64
 		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133}.Release|x64.Build.0 = Release|x64
+		{378C87F4-5726-4A48-8AED-6226E6F0F85B}.Debug|x64.ActiveCfg = Debug|x64
+		{378C87F4-5726-4A48-8AED-6226E6F0F85B}.Debug|x64.Build.0 = Debug|x64
+		{378C87F4-5726-4A48-8AED-6226E6F0F85B}.Release|x64.ActiveCfg = Release|x64
+		{378C87F4-5726-4A48-8AED-6226E6F0F85B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +56,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9D2C9E26-A13C-42B0-A49D-5E546115E86F} = {8D158DA6-2435-46D1-BDC1-C210995B8BA0}
 		{2EFCA3BD-D2E8-48CE-927B-9339BCED1133} = {8D158DA6-2435-46D1-BDC1-C210995B8BA0}
+		{378C87F4-5726-4A48-8AED-6226E6F0F85B} = {E7A50CAF-08EF-4B76-90EB-132DEFCC1928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3594A28E-BA59-49B3-B1E2-721A24913A17}
