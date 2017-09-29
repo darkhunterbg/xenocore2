@@ -50,6 +50,5 @@ namespace BindingsGenerator.Passes
             return false;
         }
 
-
     }
 }

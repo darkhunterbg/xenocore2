@@ -13,13 +13,20 @@ namespace BindingsGenerator
         const String ExtraHeaderFileName = "CppSharp.h";
         const String GenFileName = "gen";
 
-#if WIN32
         const String LibPlatform = "Win32";
-#endif
 
         static void Main(string[] args)
         {
-            var currentDir = Directory.GetCurrentDirectory();
+            int workingDir = args.ToList().IndexOf("--dir");
+            String currentDir = null;
+            if (workingDir > -1)
+            {
+                currentDir = args[workingDir + 1];
+            }
+            else
+            {
+                currentDir = Directory.GetCurrentDirectory();
+            }
 
             XenoCoreLibrary library = CreateLibrary(currentDir);
 

@@ -7,6 +7,9 @@
 #endif
 
 
+///Generate test function
+int TestFunction() { return 0; }
+
 
  class Test
 {
